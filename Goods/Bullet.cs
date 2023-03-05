@@ -17,4 +17,9 @@ public class Bullet : AbstractGood
         }
 
     }
+    [PunRPC]
+    private void DestroyBullet()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -87,6 +87,12 @@ public class PlayerController : MonoBehaviourPun, IController
             );
     }
 
+    [PunRPC]
+    void TakeDamage(int damage)
+    {
+        Debug.Log("Take Damage");
+    }
+
     public IArchitecture GetArchitecture()
     {
         return Player.Interface;

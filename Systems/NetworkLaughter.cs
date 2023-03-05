@@ -25,8 +25,13 @@ public class NetworkLaughter : MonoBehaviourPunCallbacks
 {
     public void OnGameStart()
     {
+        // PhotonNetwork.ConnectUsingSettings();
+        // Debug.Log("Connecting to server...");
+    }
+    private void Start()
+    {
+        // Connect to the Photon network.
         PhotonNetwork.ConnectUsingSettings();
-        Debug.Log("Connecting to server...");
     }
 
     public override void OnConnectedToMaster()
@@ -37,11 +42,14 @@ public class NetworkLaughter : MonoBehaviourPunCallbacks
 
     public bool JoinedRoom()
     {
-        return PhotonNetwork.JoinOrCreateRoom(
+        OnConnectedToMaster();
+        bool joined = PhotonNetwork.JoinOrCreateRoom(
             "Room",
             new Photon.Realtime.RoomOptions() { MaxPlayers = 20 },
             default
         );
+        Debug.Log(joined);
+        return joined;
     }
 
     public override void OnJoinedRoom()

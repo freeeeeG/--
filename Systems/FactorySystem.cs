@@ -3,21 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using QFramework;
 using System;
-
+using Photon.Pun;
 interface IGood
 {
     void ReturnFactory();
 }
 
-public abstract class AbstractGood : MonoBehaviour,IGood
+public abstract class AbstractGood : MonoBehaviourPunCallbacks,IGood
 {
+    float time = 5;
+    private void OnEnable()
+    {
+        StartCoroutine(DestroyGood());
+    }
     public void ReturnFactory()
     {
         Debug.Log("ReturnFactory");
         PublicComponents.Interface.GetSystem<FactorySystem>().Good2Factory(this.gameObject, this.GetType());
         this.gameObject.SetActive(false);
     }
+    //写一个携程，每隔一段时间检测一下，如果没有被激活，就销毁
 
+    IEnumerator DestroyGood()
+    {
+        if(time < 0)
+            yield return null;
+        yield return new WaitForSeconds(time);
+        if (!this.gameObject.activeSelf)
+        {
+            ReturnFactory();
+        }
+    }
 }
 
 
